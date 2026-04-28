@@ -47,7 +47,7 @@ export const ThankYou = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1 }}
-                className="max-w-xl"
+                className="max-w-xl mx-auto flex flex-col items-center"
             >
                 <Monogram size={110} color="#F0E6D2" />
                 <p
