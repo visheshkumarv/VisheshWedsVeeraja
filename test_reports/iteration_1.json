@@ -1,0 +1,34 @@
+{
+  "summary": "Full E2E test of Vishesh & Veeraja wedding invitation. Backend: 10/10 pytest tests passed (health, RSVP create valid/invalid, list filter, list excludes _id, summary counts + increment on attend). Frontend: envelope->landing transition, landing hero (welcome + heading + countdown + Let's Celebrate), split-modal with groom/bride sides, groom/bride profile pages with correct names/parentage/5 vertically-stacked event cards, single-card expand/collapse, maps link href validity, Attend flow (POSTs RSVP with status=attending, creates .ics blob anchor download with filename ending in .ics, summary.attending increments), Decline flow (POSTs and navigates to /thank-you), auto-redirect from /thank-you to / landing (skips envelope via sessionStorage), manual 'Return to Celebration' also skips envelope, mobile viewport 390x844 heading non-overflowing and split-modal stacks vertically (flex-col), mobile attend/decline stack vertically.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Home envelope -> landing transition", "issues": ["Envelope (z-40) AnimatePresence exit runs ~0.8s after state change; during that window the Let's Celebrate button on the landing beneath can be click-intercepted by the still-present envelope overlay. Not blocking (settles within ~1s) but users tapping very quickly after seal shatter may notice. Consider reducing exit duration or making the exiting envelope pointer-events:none."]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_wedding_api.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "(Optional polish) After envelope open, add pointer-events:none to the exiting <motion.div> wrapper so the landing's Let's Celebrate button is clickable immediately."
+  ],
+  "critical_code_review_comments": [
+    "server.py: list endpoint converts created_at str->datetime before returning; FastAPI will re-serialize to ISO — fine. Consider storing datetime natively in Mongo (not ISO string) for proper sort/query semantics.",
+    "server.py: CORS allow_credentials=True combined with allow_origins='*' is invalid per CORS spec — browsers will reject credentialed requests. Since no auth, this is benign today, but tighten origins before adding auth.",
+    "EventCard.jsx: RSVP POST errors are only console.error'd; UI shows success toast regardless. Consider showing error toast on failure.",
+    "downloadICS uses synchronous revokeObjectURL in setTimeout(500ms) — acceptable. No cleanup of appended <a> if click() throws — minor."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_wedding_api.py"
+  ],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "test_credentials": "None (public invitation site, no auth)",
+  "seed_data_creation": "Created ~8 TEST_-prefixed RSVP rows during testing (side=groom/bride, various events). DB summary went from 4/4 to 13 total (6 attending, 7 not_attending) during test run. Consider cleanup endpoint if needed.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "All listed features verified working on the public REACT_APP_BACKEND_URL. pytest file at /app/backend/tests/test_wedding_api.py (10 tests, 100% pass). For the .ics download check, use MutationObserver-based detection of <a download='*.ics'> being appended (patching URL.createObjectURL or HTMLAnchorElement.prototype.click fails with 'Illegal invocation' in Playwright evaluate context). sessionStorage flag is 'envelopeOpened'; setting it to 'true' skips the envelope intro. Dates in /app/frontend/src/data/events.js use IST helper; verified labels (May 3 Haldi groom, May 6 Pelli Koduku 6PM, May 6 Haldi/Pelli Kuthuru bride, May 7 Mehendi both, May 8 9:44 AM Marriage, May 12 7PM Reception).",
+  "rca of the issue": "No blocking issues found. Minor UX polish noted for the z-40 envelope AnimatePresence exit overlapping the landing during its 0.8s exit animation."
+}
