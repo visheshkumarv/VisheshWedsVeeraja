@@ -39,3 +39,12 @@ test_result.md
 
 # Memory / working notes (optional — remove this line if you want to commit them)
 memory/
+-e 
+# Environment and credential files
+.env
+.env.*
+*.env
+credentials.json
+*.pem
+*.key
+.credentials
