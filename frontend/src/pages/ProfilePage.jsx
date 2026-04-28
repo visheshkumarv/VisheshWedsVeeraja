@@ -90,8 +90,9 @@ export const ProfilePage = ({ profile, palette }) => {
                     className="mt-6 text-sm sm:text-base max-w-xl mx-auto"
                     style={{ color: "#FDFBF7", opacity: 0.8 }}
                 >
-                    Tap a ceremony below to see the venue, RSVP, and add the
-                    date to your calendar. We can't wait to celebrate with you.
+                    Tap a ceremony below to view the venue and add the
+                    reminder to your calendar. We can't wait to celebrate
+                    with you.
                 </motion.p>
             </section>
 

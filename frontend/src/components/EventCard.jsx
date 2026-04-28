@@ -31,8 +31,9 @@ export const EventCard = ({ event, side, expanded, onToggle }) => {
         }
     };
 
-    const handleAttend = async () => {
-        await sendRSVP("attending");
+    const handleAttend = () => {
+        // No data storage — directly trigger the calendar reminder download
+        // so the guest can add the event to their device's calendar/reminders.
         downloadICS({
             uid: event.id,
             title: `${event.name} — Vishesh & Veeraja`,
@@ -42,9 +43,9 @@ export const EventCard = ({ event, side, expanded, onToggle }) => {
             durationMinutes: event.duration || 180,
             filename: `${event.name.replace(/\s+/g, "_")}-Vishesh_Veeraja.ics`,
         });
-        toast.success("Added to your calendar", {
-            description: `${event.name} reminder downloaded as .ics`,
-            duration: 3500,
+        toast.success("Reminder ready", {
+            description: `${event.name} — open the downloaded file to add it to your calendar.`,
+            duration: 4000,
         });
     };
 
@@ -178,9 +179,8 @@ export const EventCard = ({ event, side, expanded, onToggle }) => {
                                     className="btn-gold flex items-center justify-center gap-2 flex-1 disabled:opacity-70"
                                     data-testid={`event-attend-${event.id}`}
                                 >
-                                    <Check className="w-4 h-4" />
-                                    <span>Attend · Add to Calendar</span>
                                     <CalendarPlus className="w-4 h-4" />
+                                    <span>Add Reminder</span>
                                 </button>
                                 <button
                                     disabled={submitting}
