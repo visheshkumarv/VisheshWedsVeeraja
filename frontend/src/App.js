@@ -1,6 +1,6 @@
 import React from "react";
 import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "sonner";
 
 import Home from "./pages/Home";
@@ -12,14 +12,14 @@ import NoiseOverlay from "./components/NoiseOverlay";
 function App() {
     return (
         <div className="App">
-            <BrowserRouter>
+            <HashRouter>
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/groom" element={<GroomPage />} />
                     <Route path="/bride" element={<BridePage />} />
                     <Route path="/thank-you" element={<ThankYou />} />
                 </Routes>
-            </BrowserRouter>
+            </HashRouter>
             <NoiseOverlay />
             <Toaster
                 theme="dark"
