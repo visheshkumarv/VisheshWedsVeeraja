@@ -1,0 +1,128 @@
+{
+  "design_vision": {
+    "domain": "Wedding Invitation",
+    "theme": "dark",
+    "archetype": "5_Jewel_and_Luxury",
+    "core_concept": "Traditional Indian wedding meets high-end royal luxury. The digital experience should mimic receiving a physical, heavy-weight, foil-stamped envelope. It relies on deep moody colors, cinematic lighting, and smooth page transitions.",
+    "emotional_tone": "Intimate, Royal, Celebratory, Premium"
+  },
+  "colors": {
+    "background": {
+      "primary": "#0B2B26",
+      "secondary": "#064E3B",
+      "split_groom": "#0B2B26",
+      "split_bride": "#4A0404"
+    },
+    "text": {
+      "primary": "#FDFBF7",
+      "secondary": "#D4AF37",
+      "muted": "#A3A3A3"
+    },
+    "accents": {
+      "gold_metallic": "#D4AF37",
+      "gold_foil": "#F0E6D2",
+      "maroon_rich": "#780000",
+      "ivory_cream": "#FDFBF7",
+      "wax_seal": "#780000"
+    },
+    "surfaces": {
+      "glass": "bg-black/40 backdrop-blur-xl border border-white/10",
+      "card": "bg-[#114B42] border border-[#D4AF37]/30"
+    }
+  },
+  "typography": {
+    "fonts": {
+      "heading": "Cormorant Garamond, serif",
+      "script": "Great Vibes, cursive",
+      "body": "Lato, sans-serif"
+    },
+    "scales": {
+      "h1": "text-5xl md:text-6xl+ tracking-tight font-light",
+      "h2": "text-3xl md:text-4xl tracking-tight",
+      "h3": "text-xl md:text-2xl",
+      "body": "text-base leading-relaxed tracking-wide",
+      "overline": "text-xs tracking-[0.2em] uppercase",
+      "monogram": "text-4xl md:text-6xl font-script"
+    },
+    "rules": [
+      "Headings strictly use Cormorant Garamond.",
+      "The 'V&V' logo and subtle decorative words use Great Vibes.",
+      "Never use default sans for headings.",
+      "Ensure high contrast on the countdown timer numbers."
+    ]
+  },
+  "spacing_and_layout": {
+    "grid_system": "Bento Grid Mode A (Tetris Grid) adapted with arched tops for traditional Indian aesthetic.",
+    "spacing_scale": "Generous. Use p-8, p-12, p-16 for main sections. gap-8 to gap-12 for grids.",
+    "alignment": "Optical center for hero. Asymmetrical offset for event cards.",
+    "special_shapes": "Use 'rounded-t-full' on event cards to mimic traditional Indian palace arches (Jharokha)."
+  },
+  "components": {
+    "envelope_home": {
+      "description": "Full screen intro. A closed CSS/SVG drawn envelope on a dark emerald background with noise texture.",
+      "elements": [
+        "Base envelope flap (top pointing down)",
+        "Wax Seal: Center circle, bg-maroon_rich, shadow-xl, text 'V&V' in script font",
+        "Instruction: 'Tap to Open' in uppercase overline font below seal."
+      ],
+      "interaction": "On click, seal breaks/fades, flap rotates up (transform origin top), entire envelope scales up and fades opacity 0 to reveal Landing Page."
+    },
+    "landing_hero": {
+      "description": "The main landing view post-envelope.",
+      "background": "Image overlay with bg-black/50 to bg-black/70 gradient.",
+      "elements": [
+        "Heading: 'vupputuri family welcomes you' (Cormorant Garamond)",
+        "Image: Bride & Groom background",
+        "Countdown Timer: 4 transparent glassmorphism squares (Days, Hrs, Mins, Secs) to May 8, 2026",
+        "CTA Button: 'Let's Celebrate' (Solid gold bg, emerald text, hover: scale up slightly)"
+      ]
+    },
+    "split_screen_modal": {
+      "description": "Vertical split covering 100vw/100vh.",
+      "left_side": "Groom side: Deep Emerald background. Large text 'Vishesh Kumar'. Interactive hover expands width.",
+      "right_side": "Bride side: Rich Maroon background. Large text 'Veeraja'. Interactive hover expands width.",
+      "interaction": "Clicking a side routes to '/groom' or '/bride'."
+    },
+    "event_cards": {
+      "description": "Cards for Haldi, Mehendi, Pelli Koduku/Kuthuru, Marriage, Reception.",
+      "styling": "Arched tops (rounded-t-[100px]), gold borders. Glassmorphism or solid dark emerald.",
+      "state_collapsed": "Shows Event Name, Date, Time.",
+      "state_expanded": "Reveals Location, Maps Link, 'Attend' / 'Not Attending' buttons.",
+      "interaction": "Attend -> Downloads .ics. Not Attending -> Show Thank You toast & redirect Home."
+    }
+  },
+  "interactions": {
+    "page_transitions": "Smooth cross-fade using Framer Motion (opacity 0 to 1, duration 0.8s).",
+    "hover_states": "Buttons must have hover:bg-[#F0E6D2] and text color change. Event cards lift up -translate-y-2 on hover.",
+    "noise_overlay": "Global fixed pointer-events-none div with SVG noise filter to give a 'paper' texture to the whole site."
+  },
+  "media_assets": {
+    "images": [
+      {
+        "category": "hero_background",
+        "url": "https://images.pexels.com/photos/28210870/pexels-photo-28210870.jpeg",
+        "description": "Elegant Indian couple in traditional attire. Use with heavy dark gradient overlay."
+      },
+      {
+        "category": "event_mehendi_haldi_bg",
+        "url": "https://images.pexels.com/photos/10299148/pexels-photo-10299148.jpeg",
+        "description": "Yellow marigold flowers for pre-wedding event cards."
+      },
+      {
+        "category": "venue_palace_bg",
+        "url": "https://images.unsplash.com/photo-1721126076620-ea40b78ec7af?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODF8MHwxfHNlYXJjaHwyfHxyb3lhbCUyMHBhbGFjZSUyMGFyY2hpdGVjdHVyZSUyMGluZGlhfGVufDB8fHx8MTc3NzM2NDE2Mnww&ixlib=rb-4.1.0&q=85",
+        "description": "Royal palace architecture for the main wedding event cards."
+      }
+    ]
+  },
+  "instructions_to_main_agent": [
+    "Install framer-motion. It is strictly required for the envelope opening animation and split-screen expansions.",
+    "Add Google Fonts: Cormorant Garamond, Great Vibes, and Lato to index.html.",
+    "Do NOT use standard Shadcn cards for events; build custom div structures with rounded-t-[100px] to mimic Indian architectural arches.",
+    "Ensure 'Attend' button dynamically generates a data URI for a basic .ics file based on event details.",
+    "Ensure 'Not Attending' button triggers a 'Thank You' view/toast and uses setTimeout to navigate to '/' after 3 seconds.",
+    "All interactive elements MUST have data-testid attributes.",
+    "Add a fixed div with a subtle SVG noise filter to give the site a luxury paper feel.",
+    "Use grid-cols-1 md:grid-cols-2 lg:grid-cols-3 for the event cards on the Bride/Groom pages."
+  ]
+}
