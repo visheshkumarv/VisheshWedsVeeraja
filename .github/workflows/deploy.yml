@@ -1,0 +1,66 @@
+name: Build & Deploy to GitHub Pages
+
+# Run on every push to main, plus a manual "Run workflow" button.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Permissions required for actions/deploy-pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, cancel queued ones
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "yarn"
+          cache-dependency-path: frontend/yarn.lock
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: yarn install --frozen-lockfile
+
+      - name: Build React app
+        working-directory: frontend
+        run: yarn build
+
+      - name: Copy build output + public assets to deploy folder
+        run: |
+          mkdir -p _site
+          cp -r frontend/build/. _site/
+          # Make sure GitHub Pages does not run Jekyll
+          touch _site/.nojekyll
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
