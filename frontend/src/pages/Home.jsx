@@ -5,8 +5,7 @@ import Countdown from "../components/Countdown";
 import SplitModal from "../components/SplitModal";
 import Monogram from "../components/Monogram";
 
-const HERO_IMG =
-    "https://images.pexels.com/photos/28210870/pexels-photo-28210870.jpeg";
+const HERO_IMG = `${process.env.PUBLIC_URL}/DSC07099.jpg`;
 
 const Petals = () => {
     const petals = Array.from({ length: 14 });

@@ -18,12 +18,12 @@ yarn build
 echo ">> Copying build output to repo root…"
 cd "$ROOT"
 
-# Remove previous static bundle (but keep source folders intact)
+# Remove previous build artifacts from root (but keep source folders intact)
 rm -rf "$ROOT/static" "$ROOT/asset-manifest.json" "$ROOT/index.html"
 
-cp "$ROOT/frontend/build/index.html"            "$ROOT/index.html"
-cp "$ROOT/frontend/build/asset-manifest.json"   "$ROOT/asset-manifest.json"
-cp -r "$ROOT/frontend/build/static"             "$ROOT/static"
+# Copy ALL build outputs (index.html, static/, plus any public assets like
+# DSC07099.jpg, favicon.ico, manifest.json, etc.) to the repo root.
+cp -r "$ROOT/frontend/build/." "$ROOT/"
 
 # Ensure GitHub Pages serves files literally (no Jekyll processing)
 touch "$ROOT/.nojekyll"
